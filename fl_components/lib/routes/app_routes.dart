@@ -8,8 +8,8 @@ class AppRoutes {
 
   static final menuoptions = <Menuoptions> [
     Menuoptions(route: 'home', icon: Icons.home, name: 'Home Screen', screen: HomeScreen()),
-    Menuoptions(route: 'listview1', icon: Icons.home, name: 'List View ', screen: Listview1Screen()),
-    Menuoptions(route: 'listview2', icon: Icons.home, name: 'List View 2', screen: Listview2Screen()),
+    Menuoptions(route: 'listview1', icon: Icons.list, name: 'List View ', screen: Listview1Screen()),
+    Menuoptions(route: 'listview2', icon: Icons.list_alt, name: 'List View 2', screen: Listview2Screen()),
     Menuoptions(route: 'alert', icon: Icons.add_alert, name: 'Alert', screen: AlertScreen()),
     Menuoptions(route: 'card', icon: Icons.card_membership, name: 'Card', screen: CardScreen()),
   ];

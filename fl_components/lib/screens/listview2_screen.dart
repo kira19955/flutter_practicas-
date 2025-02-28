@@ -26,8 +26,8 @@ class Listview2Screen extends StatelessWidget {
     return  Scaffold(
       appBar: AppBar(
         title: Center(child: Text('ListView Tipo 2')),
-        backgroundColor: Colors.indigo,
-        elevation: 10,
+        //backgroundColor: Colors.indigo,
+        //elevation: 10,
       ),
       body: ListView.separated(
         itemCount: juegosFlutter.length,
