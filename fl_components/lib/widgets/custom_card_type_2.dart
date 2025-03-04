@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CardType2 extends StatelessWidget {
-  const CardType2({super.key});
+
+  final String imageUrl;
+  final String? name;
+
+  const CardType2({super.key, required this.imageUrl, this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,7 @@ class CardType2 extends StatelessWidget {
       child: Column(
         children: [
           FadeInImage(
-            image: NetworkImage('https://media.gq.com.mx/photos/66b3e2ab1eb4176c241add84/16:9/w_1920,c_limit/Mejores_series_de_anime.jpg'),
+            image: NetworkImage(imageUrl ),
              placeholder: AssetImage('assets/jar-loading.gif'),
              width: double.infinity,
              height: 230,
@@ -22,10 +26,11 @@ class CardType2 extends StatelessWidget {
              fadeOutDuration: Duration(milliseconds: 300),
             ),
 
-            Container(
-              alignment: AlignmentDirectional.centerEnd,
-              padding: EdgeInsets.only(right: 20, top: 10, bottom: 10),
-              child: Text('hermoso paisaje'))
+            if(name != null)
+              Container(
+                alignment: AlignmentDirectional.centerEnd,
+                padding: EdgeInsets.only(right: 20, top: 10, bottom: 10),
+                child: Text(name !))
         ],
       ),
     );
