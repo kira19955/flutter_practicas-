@@ -1,74 +1,119 @@
+import 'package:app_peliculas/models/models.dart';
 import 'package:flutter/material.dart';
 
-class MovieSlider extends StatelessWidget {
-  const MovieSlider({super.key});
+class MovieSlaider extends StatefulWidget {
+
+  final List<Movie>  movies;
+  final String? title;
+  final Function onNextPage;
+
+  const MovieSlaider({Key? key, required this.movies, this.title, required this.onNextPage}) : super(key: key);
+
+  @override
+  State<MovieSlaider> createState() => _MovieSlaiderState();
+}
+
+class _MovieSlaiderState extends State<MovieSlaider> {
+
+  final ScrollController scrollController = ScrollController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    scrollController.addListener(() { 
+
+      if (scrollController.position.pixels >= scrollController.position.maxScrollExtent - 500) {
+
+          widget.onNextPage();
+        
+      }
+
+    });
+
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity, 
+      width: double.infinity,
       height: 260,
-      child: Column(
+      child:  Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          Padding(padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Text('Populares', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),), 
-          ),
+          if(widget.title != null)
+             Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  widget.title!, 
+                  style:const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
 
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
+
 
           Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 20,
-              itemBuilder: (BuildContext context, int index) {
-                return _MoviePoster();
-              },
-            ),
-          ), 
-
+            child: ListView.builder(controller: scrollController,scrollDirection: Axis.horizontal ,itemCount: widget.movies.length, itemBuilder:(context, index) =>  _MoviePoster( widget.movies[index] ),),
+          )
         ],
       ),
     );
   }
 }
 
+
+
 class _MoviePoster extends StatelessWidget {
-  const _MoviePoster();
+   
+  final Movie movies; 
 
+  const _MoviePoster(this.movies);
+  
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return Container(
-                  width: 130,
-                  height:190,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, 'details', arguments: 'movie-instance');
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: FadeInImage(
-                            placeholder: AssetImage('assets/no-image.jpg'),
-                            image: NetworkImage('https://placehold.co/300x400/000000/FFFFFF/png'),
-                             width: 130,
-                             height: 190,
-                             fit: BoxFit.cover,
-                             ),
-                        ),
+                width: 130, 
+                height: 190,
+                margin:const  EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, 'detail', arguments: movies),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: FadeInImage(placeholder:const  AssetImage('assets/no-image.jpg'),
+                         image: NetworkImage(movies.fullPosterImg),
+                         width: 130,
+                         height: 190,
+                         fit: BoxFit.cover),
                       ),
+                    ),
 
-                         SizedBox(height: 5),
+                    const  SizedBox(height: 5),
 
-                         Text('Prueba',
-                         maxLines: 2,
-                         overflow: TextOverflow.ellipsis,
-                         textAlign: TextAlign.center,)
-                    ],
-                  ),
-                  ) ;
+                      Text(movies.title,
+                     overflow: TextOverflow.ellipsis,
+                     textAlign: TextAlign.center,)
+
+
+
+                  ],
+                ),
+              );
   }
 }
+
